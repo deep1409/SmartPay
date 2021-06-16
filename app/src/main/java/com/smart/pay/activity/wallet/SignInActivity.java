@@ -81,7 +81,8 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent newIntent = new Intent(SignInActivity.this, MobileNumberRegistrationActivity.class);
+               // Intent newIntent = new Intent(SignInActivity.this, MobileNumberRegistrationActivity.class);
+                Intent newIntent = new Intent(SignInActivity.this, SignupAcitivity.class);
                 startActivity(newIntent);
                 finish();
 
@@ -129,9 +130,15 @@ public class SignInActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     try {
                         String s = response.body().string();
-                        Toast.makeText(SignInActivity.this, ""+s, Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SignInActivity.this,HomeActivity.class));
-                        finish();
+
+                        if(s.equals("Login Success")){
+                            Toast.makeText(SignInActivity.this, ""+s, Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SignInActivity.this,HomeActivity.class));
+                            finish();
+                        }else{
+                            Toast.makeText(SignInActivity.this, ""+s, Toast.LENGTH_SHORT).show();
+                        }
+
                     }catch (Exception e){
                         e.printStackTrace();
                     }

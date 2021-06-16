@@ -9,13 +9,14 @@ public class Constants {
 
     //public static final String USER_LOGIN = "Smartpay/user_login";
     public static final String USER_LOGIN = "auth";
+    public static final String USER_SIGNUP = "send_data";
 
 
 
 
     public static final String USER_MOBILE_REGISTRATION = "Smartpay/user_phone_no_registration";
     public static final String VERIFY_USER_MOBILE = "Smartpay/verfiy_user_phone_no";
-    public static final String USER_SIGNUP = "Smartpay/user_signup";
+    //public static final String USER_SIGNUP = "Smartpay/user_signup";
     //public static final String USER_LOGIN = "Smartpay/user_login";
 
 

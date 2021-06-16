@@ -10,7 +10,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.smart.pay.R;
+import com.smart.pay.Retrofit_Models.LoginModel;
+import com.smart.pay.Retrofit_Models.UserRegistrationModel;
 import com.smart.pay.SmartPayApplication;
 import com.smart.pay.api.ApiUtils;
 import com.smart.pay.api.MainAPIInterface;
@@ -20,9 +24,12 @@ import com.smart.pay.views.MyEditText;
 import com.smart.pay.views.MyTextView;
 
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignupAcitivity extends AppCompatActivity {
 
@@ -41,6 +48,8 @@ public class SignupAcitivity extends AppCompatActivity {
 
     String strUserName, strUserEmail, strUserPassword;
 
+    String phone_number = "8888888888";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +63,6 @@ public class SignupAcitivity extends AppCompatActivity {
         txtUserName = (MyEditText) findViewById(R.id.txtUserName);
         txtUserEmail = (MyEditText) findViewById(R.id.txtUserEmail);
         txtUserPassword = (MyEditText) findViewById(R.id.txtUserPassword);
-
 
         checkbocremember = (CheckBox) findViewById(R.id.checkbocremember);
 
@@ -95,8 +103,69 @@ public class SignupAcitivity extends AppCompatActivity {
 
     }
 
-
     private void userSignupRequest() {
+
+        dialog = new ProgressDialog(SignupAcitivity.this);
+
+        dialog.setMessage("Adding your details.");
+        dialog.show();
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://52.224.184.209/")
+                // as we are sending data in json format so
+                // we have to add Gson converter factory
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                // at last we are building our retrofit builder.
+                .build();
+
+        MainAPIInterface mainAPIInterface1 = retrofit.create(MainAPIInterface.class);
+
+        // passing data from our text fields to our modal class.
+        UserRegistrationModel registrationModel = new UserRegistrationModel(phone_number,strUserName,strUserEmail, strUserPassword);
+
+        // calling a method to create a post and passing our modal class.
+        Call<ResponseBody> call = mainAPIInterface1.userSignup(registrationModel);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                Log.d("Log", "onResponse: "+response);
+
+                if (response.isSuccessful()) {
+                    try {
+                        String s = response.body().string();
+                        Toast.makeText(SignupAcitivity.this, ""+s, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SignupAcitivity.this,HomeActivity.class));
+                        finish();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    dialog.dismiss();
+                }else{
+                    dialog.dismiss();
+                    Toast.makeText(SignupAcitivity.this, "Registration Failed...Please try again" , Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                dialog.dismiss();
+                Log.d("Log", "onthrowable: "+t.getMessage());
+            }
+        });
+
+
+    }
+
+}
+/*
+private void userSignupRequest() {
 
         String xAccessToken = "mykey";
 
@@ -150,4 +219,4 @@ public class SignupAcitivity extends AppCompatActivity {
 
 
     }
-}
+ */

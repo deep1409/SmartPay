@@ -1,8 +1,7 @@
 package com.smart.pay.api;
 
-import android.util.Log;
-
 import com.smart.pay.Retrofit_Models.LoginModel;
+import com.smart.pay.Retrofit_Models.UserRegistrationModel;
 import com.smart.pay.models.input.MobileRechargeModel;
 import com.smart.pay.models.output.AddProductToCartModel;
 import com.smart.pay.models.output.AllChildCategoryOutput;
@@ -58,7 +57,6 @@ import retrofit2.Retrofit;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -84,15 +82,22 @@ public interface MainAPIInterface<R extends Retrofit> {
             @Part MultipartBody.Part otp
     );
 
-    @Multipart
-    @POST(Constants.USER_SIGNUP)   //
-    Call<UserProfileOutput> userSignup(
-            @Header("X-API-KEY") String xAccessToken,
-            @Part MultipartBody.Part email,
-            @Part MultipartBody.Part phone_no,
-            @Part MultipartBody.Part username,
-            @Part MultipartBody.Part password
-    );
+
+    @POST(Constants.USER_SIGNUP)
+    Call<ResponseBody> userSignup(
+            @Body UserRegistrationModel UserRegistration
+            );
+
+
+//    @Multipart
+//    @POST(Constants.USER_SIGNUP)   //
+//    Call<UserProfileOutput> userSignup(
+//            @Header("X-API-KEY") String xAccessToken,
+//            @Part MultipartBody.Part email,
+//            @Part MultipartBody.Part phone_no,
+//            @Part MultipartBody.Part username,
+//            @Part MultipartBody.Part password
+//    );
 
 
    /* @Multipart
