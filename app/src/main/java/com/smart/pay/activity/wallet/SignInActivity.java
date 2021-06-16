@@ -69,12 +69,7 @@ public class SignInActivity extends AppCompatActivity {
                     edtPassword.setFocusable(true);
                     edtPassword.setError("Enter password");
                 } else {
-                    //  userLoginRequest();
-                   /* Intent newIntent = new Intent(SignInActivity.this, HomeActivity.class);
-                    startActivity(newIntent);
-                    finish();*/
-
-                    userlogin1();
+                    userlogin();
                 }
 
 
@@ -94,76 +89,9 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
-   /* public void userlogin() {
-
-        String xAccessToken = "mykey";
-
-        dialog = new ProgressDialog(SignInActivity.this);
-
-        dialog.setMessage("Verifying your details.");
-        dialog.show();
-
-        MultipartBody.Part phone_body = MultipartBody.Part.createFormData("phone_number", strMobile);
-
-        MultipartBody.Part password_body = MultipartBody.Part.createFormData("password", strPassword);
-
-//        Toast.makeText(this, "MultipartBody Phone "+phone_body, Toast.LENGTH_SHORT).show();
-//        Toast.makeText(this, "MultipartBody pass "+password_body, Toast.LENGTH_SHORT).show();
-
-        Log.v("Login","String Phone "+strMobile);
-        Log.v("Login","String pass "+strPassword);
-
-        Log.v("Login","MultipartBody Phone "+phone_body);
-        Log.v("Login","MultipartBody pass "+password_body);
-
-        mainAPIInterface.userLogin(strMobile,strPassword).enqueue(new Callback<LoginModel>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-
-                Log.d("Login", "onResponse: "+response);
-
-                if (response.isSuccessful()) {
-                    dialog.dismiss();
-
-                    Toast.makeText(SignInActivity.this, "" + response, Toast.LENGTH_SHORT).show();
-
-                    *//*if (response.body().getSuccess().equalsIgnoreCase("1")) {
-
-                        Toast.makeText(SignInActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-                        DataVaultManager.getInstance(SignInActivity.this).saveName(response.body().getProfile().getUsername());
-                        DataVaultManager.getInstance(SignInActivity.this).saveUserEmail(response.body().getProfile().getEmail());
-                        DataVaultManager.getInstance(SignInActivity.this).saveUserPassword(strPassword);
-                        DataVaultManager.getInstance(SignInActivity.this).saveUserMobile(response.body().getProfile().getMobile());
-                        DataVaultManager.getInstance(SignInActivity.this).saveUserId(response.body().getProfile().getUserId());
-                        DataVaultManager.getInstance(SignInActivity.this).saveWalletId(response.body().getProfile().getWallet_id());
 
 
-                        Intent i = new Intent(SignInActivity.this, HomeActivity.class);
-                        startActivity(i);
-                        finish();
-
-
-                    }*//*
-
-                }else{
-                    dialog.dismiss();
-                    Toast.makeText(SignInActivity.this, "Error" , Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-
-                dialog.dismiss();
-                Toast.makeText(SignInActivity.this, "" + t.toString(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-    }*/
-
-    public void userlogin1(){
+    public void userlogin(){
 
         dialog = new ProgressDialog(SignInActivity.this);
 
@@ -221,8 +149,6 @@ public class SignInActivity extends AppCompatActivity {
                 Log.d("Log", "onthrowable: "+t.getMessage());
             }
         });
-
-
 
     }
 
