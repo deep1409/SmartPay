@@ -20,6 +20,10 @@ import com.smart.pay.utils.DataVaultManager;
 import com.smart.pay.views.MyEditText;
 import com.smart.pay.views.MyTextView;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
