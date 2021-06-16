@@ -83,6 +83,8 @@
                     android:drawablePadding="12dp"
                     android:gravity="left"
                     android:hint="Mobile"
+                    android:inputType="number"
+                    android:maxLength="10"
                     android:lines="1"
                     android:padding="10dp"
                     android:textColor="@color/Tex"

@@ -3,12 +3,20 @@ package com.smart.pay.api;
 
 public class Constants {
 
-    public static final String SERVER_URL = "http://workoholicks.com/demo/smartpay/admin/";
+   // public static final String SERVER_URL = "http://workoholicks.com/demo/smartpay/admin/";
+
+    public static final String SERVER_URL = "http://52.224.184.209/";
+
+    //public static final String USER_LOGIN = "Smartpay/user_login";
+    public static final String USER_LOGIN = "auth";
+
+
+
 
     public static final String USER_MOBILE_REGISTRATION = "Smartpay/user_phone_no_registration";
     public static final String VERIFY_USER_MOBILE = "Smartpay/verfiy_user_phone_no";
     public static final String USER_SIGNUP = "Smartpay/user_signup";
-    public static final String USER_LOGIN = "Smartpay/user_login";
+    //public static final String USER_LOGIN = "Smartpay/user_login";
 
 
     public static final String GET_ALL_SELLER_PRODUCTS = "Product/get_all_product";
@@ -113,6 +121,12 @@ public class Constants {
     public static final String GET_WALLET_TRANSACTIONS = "Smartpay/get_all_wallet_transactions";
 
     public static final String PLACE_MOBILE_RECHARGE_REQUEST="Smartpay/add_mobile_recharge_request";
+
+
+
+    //hrd
+
+
 
 
 }

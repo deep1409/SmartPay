@@ -21,12 +21,14 @@ android {
 
     buildTypes {
         release {
-            buildConfigField "String", "BASE_URL", '"http://workoholicks.com/demo/smartpay/admin/"'
+            //buildConfigField "String", "BASE_URL", '"http://workoholicks.com/demo/smartpay/admin/"'
+            buildConfigField "String", "BASE_URL", '"http://52.224.184.209/"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "String", "BASE_URL", '"http://workoholicks.com/demo/smartpay/admin/"'
+          //  buildConfigField "String", "BASE_URL", '"http://workoholicks.com/demo/smartpay/admin/"'
+            buildConfigField "String", "BASE_URL", '"http://52.224.184.209/"'
 
             ext.enableCrashlytics = false
         }
@@ -149,6 +151,9 @@ dependencies {
 
     //For TicketView
     implementation 'com.github.mreram:ticketview:1.0.0'
+
+    //interceptor
+    implementation'com.squareup.okhttp3:logging-interceptor:3.3.1'
 
 
 }
