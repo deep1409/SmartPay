@@ -1,6 +1,8 @@
 package com.smart.pay.api;
 
 
+import retrofit2.http.GET;
+
 public class Constants {
 
    // public static final String SERVER_URL = "http://workoholicks.com/demo/smartpay/admin/";
@@ -70,6 +72,7 @@ public class Constants {
 
     public static final String FORGOT_PASSWORD_REQUEST = "Webservice_App/forgot_password";
     public static final String SEND_PASSWORD_OTP = "Webservice_App/send_change_password_otp";
+//    public static final String SEND_PASSWORD_OTP = "https://api.authy.com/protected/JSON/sms/{AUTHY_ID}";
     public static final String CHANGE_PASSWORD_URL = "Webservice_App/change_password";
 
     public static final String GET_SERVICES_BY_CATEGORY = "Webservice_App/get_list_of_services";
@@ -122,6 +125,9 @@ public class Constants {
     public static final String GET_WALLET_TRANSACTIONS = "Smartpay/get_all_wallet_transactions";
 
     public static final String PLACE_MOBILE_RECHARGE_REQUEST="Smartpay/add_mobile_recharge_request";
+
+    //hrd(login and signup api)
+
 
 
 

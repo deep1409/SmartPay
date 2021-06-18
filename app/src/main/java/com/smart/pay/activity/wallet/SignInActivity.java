@@ -99,7 +99,6 @@ public class SignInActivity extends AppCompatActivity {
     public void userlogin(){
 
         dialog = new ProgressDialog(SignInActivity.this);
-
         dialog.setMessage("Verifying your details.");
         dialog.show();
 
