@@ -46,6 +46,8 @@ import static com.smart.pay.utils.DataVaultManager.KEY_WALLET_ID;
 
 public class MobileRechargeActivity extends AppCompatActivity implements PaymentResultListener {
 
+    private static final int RESULT_PICK_CONTACT=1;
+
     MyTextView payButton;
 
     Switch rechargeSwitch;
@@ -61,8 +63,6 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
 
     ProgressDialog newProgressDialog;
     MainAPIInterface mainAPIInterface;
-
-    ImageView contact_list;
 
     int amount;
 
