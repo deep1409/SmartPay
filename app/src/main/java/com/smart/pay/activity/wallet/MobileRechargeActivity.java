@@ -108,11 +108,20 @@ public class MobileRechargeActivity extends AppCompatActivity {
                     edtAmount.setError("Enter the amount");
                 } else {
 
-                    placeRechargeRequest();
+                  //  placeRechargeRequest();
+
+                    openRazorPay();
+
                 }
 
             }
         });
+
+    }
+
+    private void openRazorPay() {
+
+
 
     }
 
