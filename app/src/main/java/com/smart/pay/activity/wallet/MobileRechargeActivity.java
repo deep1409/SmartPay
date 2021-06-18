@@ -1,6 +1,8 @@
 package com.smart.pay.activity.wallet;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.gson.JsonObject;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
 import com.smart.pay.R;
 import com.smart.pay.SmartPayApplication;
 import com.smart.pay.api.ApiUtils;
@@ -26,6 +31,8 @@ import com.smart.pay.utils.DataVaultManager;
 import com.smart.pay.views.MyEditText;
 import com.smart.pay.views.MyTextView;
 
+import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,7 +40,7 @@ import retrofit2.Response;
 import static com.smart.pay.utils.DataVaultManager.KEY_USER_ID;
 import static com.smart.pay.utils.DataVaultManager.KEY_WALLET_ID;
 
-public class MobileRechargeActivity extends AppCompatActivity {
+public class MobileRechargeActivity extends AppCompatActivity implements PaymentResultListener {
 
     MyTextView payButton;
 
@@ -51,6 +58,8 @@ public class MobileRechargeActivity extends AppCompatActivity {
     MainAPIInterface mainAPIInterface;
 
     ImageView contact_list;
+
+    int amount;
 
 
     @Override
@@ -121,7 +130,48 @@ public class MobileRechargeActivity extends AppCompatActivity {
 
     private void openRazorPay() {
 
+        //Round off amount
+        amount = Math.round(Float.parseFloat(strAmount) * 100);
 
+        //Initialize Razorpay
+        Checkout checkout = new Checkout();
+
+        //Api key
+        checkout.setKeyID("rzp_test_ghacHhDVqlrHSf");
+
+        //Set Image
+        checkout.setImage(R.drawable.logo2);
+
+        //Initialize JSONObject
+        JSONObject object = new JSONObject();
+
+        try {
+
+            //Name
+            object.put("name","Mobile Recharge");
+
+            //Description
+            object.put("description","Test Payment");
+
+            //Theme Color
+            object.put("theme.color","#0093DD");
+
+            //Currency
+            object.put("currency","INR");
+
+            //Amount
+            object.put("amount",amount);
+
+            //Contact number
+            object.put("prefill.contact",strPhone);
+            //Email
+            object.put("prefill.email","youremail@gmail.com");
+
+            checkout.open(MobileRechargeActivity.this,object);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -165,7 +215,6 @@ public class MobileRechargeActivity extends AppCompatActivity {
                         Intent intent = new Intent(MobileRechargeActivity.this, ThankYouRechargeDone.class);
                         startActivity(intent);
                         finish();
-
 
                     }
 
@@ -212,10 +261,38 @@ public class MobileRechargeActivity extends AppCompatActivity {
                 finish();
                 return true;
 
-
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @Override
+    public void onPaymentSuccess(String s) {
+        Context context;
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Payment ID");
+//        builder.setMessage(s);
+//        builder.show();
+
+        abc(s);
+
+    }
+
+    public void abc(String id){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Payment ID");
+        builder.setMessage("Phone Number: "+strPhone +"\nAmount: "+strAmount +"\nPayment ID: "+id);
+        builder.show();
+
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+     //   Toast.makeText(this, "Payment failed "+s, Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Payment Failed");
+        builder.setMessage(s);
+        builder.show();
+    }
 }
