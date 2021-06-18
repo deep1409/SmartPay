@@ -53,7 +53,7 @@ public class MovieTicketsActivity extends AppCompatActivity {
 
         file_maps.put("Movie 1", R.drawable.movie_banner_1);
         file_maps.put("Movie 2", R.drawable.movie_banner_2);
-        file_maps.put("Movie 3", R.drawable.movie_banner_3);
+        //file_maps.put("Movie 3", R.drawable.movie_banner_3); //
 
 
         for (String name : file_maps.keySet()) {

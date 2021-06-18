@@ -50,6 +50,8 @@ public class MobileRechargeActivity extends AppCompatActivity {
     ProgressDialog newProgressDialog;
     MainAPIInterface mainAPIInterface;
 
+    ImageView contact_list;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,8 @@ public class MobileRechargeActivity extends AppCompatActivity {
         edtAmount = (MyEditText) findViewById(R.id.edtAmount);
 
         btnSeePlans = (MyTextView) findViewById(R.id.btnSeePlans);
+
+        contact_list = findViewById(R.id.contact_list);
 
         rechargeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
