@@ -4,7 +4,10 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -46,6 +50,7 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
 
     Switch rechargeSwitch;
 
+    ImageView contact_list;
     MyEditText edtphone_number;
     MyEditText edtOperator;
     MyEditText edtAmount;
@@ -82,6 +87,14 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
         btnSeePlans = (MyTextView) findViewById(R.id.btnSeePlans);
 
         contact_list = findViewById(R.id.contact_list);
+
+        contact_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+                startActivityForResult (intent, RESULT_PICK_CONTACT);
+            }
+        });
 
         rechargeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -175,6 +188,39 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case RESULT_PICK_CONTACT:
+                    contactPicked(data);
+                    break;
+            }
+        } else {
+            Toast.makeText(this, "Failed to pick the contact ", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private  void contactPicked(Intent data) {
+        Cursor cursor = null;
+        try {
+            String phoneNo = null;
+            Uri uri = data.getData();
+            cursor = getContentResolver().query(uri, null,null,null,null);
+            cursor.moveToFirst();
+            int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+            phoneNo = cursor.getString(phoneIndex);
+
+            edtphone_number.setText(phoneNo);
+
+            }
+        catch (Exception e)
+         {
+            e.printStackTrace();
+        }
+    }
+
     private void placeRechargeRequest() {
 
         String xAccessToken = "mykey";
@@ -215,6 +261,7 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
                         Intent intent = new Intent(MobileRechargeActivity.this, ThankYouRechargeDone.class);
                         startActivity(intent);
                         finish();
+
 
                     }
 
@@ -260,6 +307,7 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
             case android.R.id.home:
                 finish();
                 return true;
+
 
             default:
                 return super.onOptionsItemSelected(item);

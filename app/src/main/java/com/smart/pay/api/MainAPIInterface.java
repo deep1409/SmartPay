@@ -64,7 +64,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Url;
 
 
-public interface MainAPIInterface<R extends Retrofit> {
+public interface  MainAPIInterface<R extends Retrofit> {
 
     @Multipart
     @POST(Constants.USER_MOBILE_REGISTRATION)
