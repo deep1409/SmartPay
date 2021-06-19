@@ -22,10 +22,13 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 import com.smart.pay.R;
+import com.smart.pay.Retrofit_Models.RechargeModel;
 import com.smart.pay.SmartPayApplication;
 import com.smart.pay.api.ApiUtils;
 import com.smart.pay.api.MainAPIInterface;
@@ -37,9 +40,12 @@ import com.smart.pay.views.MyTextView;
 
 import org.json.JSONObject;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.smart.pay.utils.DataVaultManager.KEY_USER_ID;
 import static com.smart.pay.utils.DataVaultManager.KEY_WALLET_ID;
@@ -175,16 +181,59 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
             //Amount
             object.put("amount",amount);
 
-            //Contact number
-            object.put("prefill.contact",strPhone);
-            //Email
-            object.put("prefill.email","youremail@gmail.com");
+//            //Contact number
+//            object.put("prefill.contact",strPhone);
+//            //Email
+//            object.put("prefill.email","youremail@gmail.com");
 
             checkout.open(MobileRechargeActivity.this,object);
 
         }catch (Exception e){
             e.printStackTrace();
         }
+
+    }
+
+    public  void m_recharge(){
+
+        newProgressDialog = new ProgressDialog(MobileRechargeActivity.this);
+
+        newProgressDialog.setMessage("Adding your details.");
+        newProgressDialog.show();
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://mpesa.co.in/Recharge/")
+                // as we are sending data in json format so
+                // we have to add Gson converter factory
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                // at last we are building our retrofit builder.
+                .build();
+
+        /*MainAPIInterface mainAPIInterface1 = retrofit.create(MainAPIInterface.class);
+
+        RechargeModel rechargeModel = new RechargeModel("","","","","","","");
+
+        Call<ResponseBody> call = mainAPIInterface1.mpesa_recharge(rechargeModel);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });*/
+
+
+
+
 
     }
 

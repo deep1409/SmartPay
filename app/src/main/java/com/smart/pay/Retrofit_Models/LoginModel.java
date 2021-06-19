@@ -1,8 +1,15 @@
 package com.smart.pay.Retrofit_Models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class LoginModel {
 
-    String phone_number,password;
+
+    @SerializedName("email")
+    String phone_number;
+
+
+    String password;
 
     public LoginModel(String phone_number, String password) {
         this.phone_number = phone_number;

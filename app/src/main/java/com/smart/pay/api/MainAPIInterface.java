@@ -1,6 +1,7 @@
 package com.smart.pay.api;
 
 import com.smart.pay.Retrofit_Models.LoginModel;
+import com.smart.pay.Retrofit_Models.RechargeModel;
 import com.smart.pay.Retrofit_Models.UserRegistrationModel;
 import com.smart.pay.models.input.MobileRechargeModel;
 import com.smart.pay.models.output.AddProductToCartModel;
@@ -86,6 +87,12 @@ public interface  MainAPIInterface<R extends Retrofit> {
     @POST(Constants.USER_SIGNUP)
     Call<ResponseBody> userSignup(
             @Body UserRegistrationModel UserRegistration
+            );
+
+    @POST(Constants.RECHARGE)  //mpesa
+    Call<ResponseBody> mpesa_recharge(
+            @Header("content-type : application/json")
+            @Body RechargeModel rechargeModel
             );
 
 
