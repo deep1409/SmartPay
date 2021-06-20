@@ -231,10 +231,6 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
             }
         });*/
 
-
-
-
-
     }
 
     @Override
@@ -261,7 +257,30 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
             int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
             phoneNo = cursor.getString(phoneIndex);
 
-            edtphone_number.setText(phoneNo);
+            String final_phone_number = phoneNo;
+            String str;
+
+            if(final_phone_number.substring(0,3).equals("+91") ){
+                str = ""+final_phone_number.substring(3);
+            }else if(final_phone_number.substring(0,1).equals("0")){
+                str = ""+final_phone_number.substring(1);
+            }
+            else{
+                str = final_phone_number;
+            }
+
+
+            char[] strArray = str.toCharArray();
+            StringBuffer stringBuffer = new StringBuffer();
+            for (int i = 0; i < strArray.length; i++) {
+                if ((strArray[i] != ' ') && (strArray[i] != '\t')) {
+                    stringBuffer.append(strArray[i]);
+                }
+            }
+            String space_removed_phone_number = stringBuffer.toString();
+
+
+            edtphone_number.setText(space_removed_phone_number);
 
             }
         catch (Exception e)

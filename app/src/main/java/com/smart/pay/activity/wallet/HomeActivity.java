@@ -106,13 +106,13 @@ public class HomeActivity extends AppCompatActivity {
 //
 //                        Toast.makeText(HomeActivity.this, "Coming soon!!", Toast.LENGTH_SHORT).show();
 //                        //Define mallfragment here...
-////                        Fragment fragment2 = new MallFragment();
-////
-////                        FragmentManager fragmentManager2 = getSupportFragmentManager();
-////                        FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
-////                        fragmentTransaction2.addToBackStack(null);
-////                        fragmentTransaction2.replace(R.id.mainContainer, fragment2);
-////                        fragmentTransaction2.commit();
+//                        Fragment fragment2 = new MallFragment();
+//
+//                        FragmentManager fragmentManager2 = getSupportFragmentManager();
+//                        FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
+//                        fragmentTransaction2.addToBackStack(null);
+//                        fragmentTransaction2.replace(R.id.mainContainer, fragment2);
+//                        fragmentTransaction2.commit();
 //
 //
 //                        break;
@@ -121,13 +121,13 @@ public class HomeActivity extends AppCompatActivity {
 //                        Toast.makeText(HomeActivity.this, "Coming soon !!", Toast.LENGTH_SHORT).show();
 //                        //Define QRScan feature here...
 //
-////                        Fragment fragment3 = new ScanFragment();
-////
-////                        FragmentManager fragmentManager3 = getSupportFragmentManager();
-////                        FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
-////                        fragmentTransaction3.addToBackStack(null);
-////                        fragmentTransaction3.replace(R.id.mainContainer, fragment3);
-////                        fragmentTransaction3.commit();
+//                        Fragment fragment3 = new ScanFragment();
+//
+//                        FragmentManager fragmentManager3 = getSupportFragmentManager();
+//                        FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
+//                        fragmentTransaction3.addToBackStack(null);
+//                        fragmentTransaction3.replace(R.id.mainContainer, fragment3);
+//                        fragmentTransaction3.commit();
 //
 //
 //                        break;
@@ -135,13 +135,13 @@ public class HomeActivity extends AppCompatActivity {
 //                    case 3:
 //                        Toast.makeText(HomeActivity.this, "Coming Soon!!", Toast.LENGTH_SHORT).show();
 //                        //Define BankFragment here...
-////                        Fragment fragment4 = new BankFragment();
-////
-////                        FragmentManager fragmentManager4 = getSupportFragmentManager();
-////                        FragmentTransaction fragmentTransaction4 = fragmentManager4.beginTransaction();
-////                        fragmentTransaction4.addToBackStack(null);
-////                        fragmentTransaction4.replace(R.id.mainContainer, fragment4);
-////                        fragmentTransaction4.commit();
+//                        Fragment fragment4 = new BankFragment();
+//
+//                        FragmentManager fragmentManager4 = getSupportFragmentManager();
+//                        FragmentTransaction fragmentTransaction4 = fragmentManager4.beginTransaction();
+//                        fragmentTransaction4.addToBackStack(null);
+//                        fragmentTransaction4.replace(R.id.mainContainer, fragment4);
+//                        fragmentTransaction4.commit();
 //
 //
 //                        break;
@@ -149,13 +149,13 @@ public class HomeActivity extends AppCompatActivity {
 //                    case 4:
 //                        Toast.makeText(HomeActivity.this, "Coming Soon !!", Toast.LENGTH_SHORT).show();
 //                        //Define InboxFragment here...
-////                        Fragment fragment5 = new InboxFragment();
-////
-////                        FragmentManager fragmentManager5 = getSupportFragmentManager();
-////                        FragmentTransaction fragmentTransaction5 = fragmentManager5.beginTransaction();
-////                        fragmentTransaction5.addToBackStack(null);
-////                        fragmentTransaction5.replace(R.id.mainContainer, fragment5);
-////                        fragmentTransaction5.commit();
+//                        Fragment fragment5 = new InboxFragment();
+//
+//                        FragmentManager fragmentManager5 = getSupportFragmentManager();
+//                        FragmentTransaction fragmentTransaction5 = fragmentManager5.beginTransaction();
+//                        fragmentTransaction5.addToBackStack(null);
+//                        fragmentTransaction5.replace(R.id.mainContainer, fragment5);
+//                        fragmentTransaction5.commit();
 //
 //
 //                        break;
