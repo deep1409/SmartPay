@@ -1,6 +1,7 @@
 package com.smart.pay.activity.wallet;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ public class SignInActivity extends AppCompatActivity {
     MyEditText edtMobile, edtPassword;
 
     String strMobile, strPassword;
-
+    SharedPreferences mSP;
     ProgressDialog dialog;
    // MainAPIInterface mainAPIInterface;
 
@@ -59,7 +60,7 @@ public class SignInActivity extends AppCompatActivity {
 
         edtMobile = (MyEditText) findViewById(R.id.edtMobile);
         edtPassword = (MyEditText) findViewById(R.id.edtPassword);
-
+        mSP = getSharedPreferences("login", Context.MODE_PRIVATE);
 
         signin1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +149,8 @@ public class SignInActivity extends AppCompatActivity {
                             editor = mSharedPreferences.edit();
                             editor.putString("email_id",strMobile.toString());
                             editor.commit();
+
+                            mSP.edit().putBoolean("logged",true).apply();
 
                             /*mSP.edit().putBoolean("logged",true).apply();
                             mSP.edit().putString("email",strMobile.toString()).apply();*/

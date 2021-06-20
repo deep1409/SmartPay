@@ -3,7 +3,9 @@ package com.smart.pay.activity.wallet;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +51,8 @@ public class HomeActivity extends AppCompatActivity {
     ImageView menu_icon;
 
     private boolean mSlideState = false;
-
+    SharedPreferences sp,mSp;
+    String shared_email_id;
     String strUserName, strUserMobile;
 
     @Override
@@ -61,7 +64,14 @@ public class HomeActivity extends AppCompatActivity {
 
         strUserName = DataVaultManager.getInstance(SmartPayApplication.getInstance()).getVaultValue(KEY_NAME);
         strUserMobile = DataVaultManager.getInstance(SmartPayApplication.getInstance()).getVaultValue(KEY_MOBILE);
-
+        try{
+            sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            shared_email_id = sp.getString("email_id", "");
+            Toast.makeText(this, ""+shared_email_id, Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e){
+            Log.d("MyProfile", "Exeption: "+e);
+        }
 
         Fragment fragment = new HomeFragment();
 
@@ -92,63 +102,63 @@ public class HomeActivity extends AppCompatActivity {
 
                         break;
 
-                    case 1:
-
-                        Toast.makeText(HomeActivity.this, "Coming soon!!", Toast.LENGTH_SHORT).show();
-                        //Define mallfragment here...
-//                        Fragment fragment2 = new MallFragment();
+//                    case 1:
 //
-//                        FragmentManager fragmentManager2 = getSupportFragmentManager();
-//                        FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
-//                        fragmentTransaction2.addToBackStack(null);
-//                        fragmentTransaction2.replace(R.id.mainContainer, fragment2);
-//                        fragmentTransaction2.commit();
-
-
-                        break;
-
-                    case 2:
-                        Toast.makeText(HomeActivity.this, "Coming soon !!", Toast.LENGTH_SHORT).show();
-                        //Define QRScan feature here...
-
-//                        Fragment fragment3 = new ScanFragment();
+//                        Toast.makeText(HomeActivity.this, "Coming soon!!", Toast.LENGTH_SHORT).show();
+//                        //Define mallfragment here...
+////                        Fragment fragment2 = new MallFragment();
+////
+////                        FragmentManager fragmentManager2 = getSupportFragmentManager();
+////                        FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
+////                        fragmentTransaction2.addToBackStack(null);
+////                        fragmentTransaction2.replace(R.id.mainContainer, fragment2);
+////                        fragmentTransaction2.commit();
 //
-//                        FragmentManager fragmentManager3 = getSupportFragmentManager();
-//                        FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
-//                        fragmentTransaction3.addToBackStack(null);
-//                        fragmentTransaction3.replace(R.id.mainContainer, fragment3);
-//                        fragmentTransaction3.commit();
-
-
-                        break;
-
-                    case 3:
-                        Toast.makeText(HomeActivity.this, "Coming Soon!!", Toast.LENGTH_SHORT).show();
-                        //Define BankFragment here...
-//                        Fragment fragment4 = new BankFragment();
 //
-//                        FragmentManager fragmentManager4 = getSupportFragmentManager();
-//                        FragmentTransaction fragmentTransaction4 = fragmentManager4.beginTransaction();
-//                        fragmentTransaction4.addToBackStack(null);
-//                        fragmentTransaction4.replace(R.id.mainContainer, fragment4);
-//                        fragmentTransaction4.commit();
-
-
-                        break;
-
-                    case 4:
-                        Toast.makeText(HomeActivity.this, "Coming Soon !!", Toast.LENGTH_SHORT).show();
-                        //Define InboxFragment here...
-//                        Fragment fragment5 = new InboxFragment();
+//                        break;
 //
-//                        FragmentManager fragmentManager5 = getSupportFragmentManager();
-//                        FragmentTransaction fragmentTransaction5 = fragmentManager5.beginTransaction();
-//                        fragmentTransaction5.addToBackStack(null);
-//                        fragmentTransaction5.replace(R.id.mainContainer, fragment5);
-//                        fragmentTransaction5.commit();
-
-
-                        break;
+//                    case 2:
+//                        Toast.makeText(HomeActivity.this, "Coming soon !!", Toast.LENGTH_SHORT).show();
+//                        //Define QRScan feature here...
+//
+////                        Fragment fragment3 = new ScanFragment();
+////
+////                        FragmentManager fragmentManager3 = getSupportFragmentManager();
+////                        FragmentTransaction fragmentTransaction3 = fragmentManager3.beginTransaction();
+////                        fragmentTransaction3.addToBackStack(null);
+////                        fragmentTransaction3.replace(R.id.mainContainer, fragment3);
+////                        fragmentTransaction3.commit();
+//
+//
+//                        break;
+//
+//                    case 3:
+//                        Toast.makeText(HomeActivity.this, "Coming Soon!!", Toast.LENGTH_SHORT).show();
+//                        //Define BankFragment here...
+////                        Fragment fragment4 = new BankFragment();
+////
+////                        FragmentManager fragmentManager4 = getSupportFragmentManager();
+////                        FragmentTransaction fragmentTransaction4 = fragmentManager4.beginTransaction();
+////                        fragmentTransaction4.addToBackStack(null);
+////                        fragmentTransaction4.replace(R.id.mainContainer, fragment4);
+////                        fragmentTransaction4.commit();
+//
+//
+//                        break;
+//
+//                    case 4:
+//                        Toast.makeText(HomeActivity.this, "Coming Soon !!", Toast.LENGTH_SHORT).show();
+//                        //Define InboxFragment here...
+////                        Fragment fragment5 = new InboxFragment();
+////
+////                        FragmentManager fragmentManager5 = getSupportFragmentManager();
+////                        FragmentTransaction fragmentTransaction5 = fragmentManager5.beginTransaction();
+////                        fragmentTransaction5.addToBackStack(null);
+////                        fragmentTransaction5.replace(R.id.mainContainer, fragment5);
+////                        fragmentTransaction5.commit();
+//
+//
+//                        break;
                 }
             }
         });
@@ -197,7 +207,7 @@ public class HomeActivity extends AppCompatActivity {
                 .addProfiles(
                         new ProfileDrawerItem()
                                 .withName(strUserName)
-                                .withEmail(strUserMobile)
+                                .withEmail(shared_email_id)
                                 .withIcon(R.mipmap.ic_profile)
                 )
                 .withTextColor(getResources().getColor(R.color.colorPrimary))
@@ -231,7 +241,8 @@ public class HomeActivity extends AppCompatActivity {
 
                         new DividerDrawerItem(),
 
-                        new PrimaryDrawerItem().withName("My Orders").withIcon(R.drawable.ic_orders).withIdentifier(2).withTextColor(getResources().getColor(R.color.colorAccent)),
+//                        new PrimaryDrawerItem().withName("My Orders").withIcon(R.drawable.ic_orders).withIdentifier(2).withTextColor(getResources().getColor(R.color.colorAccent)),
+
                         new PrimaryDrawerItem().withName("My Passbook").withIcon(R.drawable.ic_passbook).withIdentifier(3).withTextColor(getResources().getColor(R.color.colorAccent)),
 
                         new DividerDrawerItem(),
@@ -269,18 +280,21 @@ public class HomeActivity extends AppCompatActivity {
                                 startActivity(profileIntent);
 
 
-                            } else if (drawerItem.getIdentifier() == 2) {
-
-                                Intent i = new Intent(HomeActivity.this, MyOrdersActivity.class);
-                                startActivity(i);
-
-                            } else if (drawerItem.getIdentifier() == 3) {
+                            }
+//                            else if (drawerItem.getIdentifier() == 2) {
+//
+//                                Intent i = new Intent(HomeActivity.this, MyOrdersActivity.class);
+//                                startActivity(i);
+//
+//                            }
+                            else if (drawerItem.getIdentifier() == 3) {
 
                                 Intent i = new Intent(HomeActivity.this, MyPassbook.class);
                                 startActivity(i);
 
 
-                            } else if (drawerItem.getIdentifier() == 4) {
+                            }
+                            else if (drawerItem.getIdentifier() == 4) {
                                 Intent i = new Intent(HomeActivity.this, PaymentSettings.class);
                                 startActivity(i);
 
@@ -356,6 +370,7 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -370,7 +385,8 @@ public class HomeActivity extends AppCompatActivity {
         DataVaultManager.getInstance(HomeActivity.this).saveUserId("");
         DataVaultManager.getInstance(HomeActivity.this).saveUserLogo("");
         DataVaultManager.getInstance(HomeActivity.this).saveWalletId("");
-
+        mSp = getApplicationContext().getSharedPreferences("login",Context.MODE_PRIVATE);
+        mSp.edit().putBoolean("logged",false).apply();
         Intent i = new Intent(HomeActivity.this, SignInActivity.class);
         startActivity(i);
         finish();
