@@ -313,7 +313,7 @@ public class HomeActivity extends AppCompatActivity {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this, R.style.MyAlertDialogStyle);
                                 builder.setTitle(R.string.app_name);
                                 builder.setMessage("Are you sure to want to Logout ?");
-                                builder.setIcon(R.mipmap.ic_launcher);
+                                builder.setIcon(R.drawable.logo2);
                                 builder.setPositiveButton("Yes",
                                         new DialogInterface.OnClickListener() {
 
