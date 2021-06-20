@@ -12,7 +12,11 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="60dp"
         android:layout_marginRight="10dp"
-        android:src="@mipmap/logo" />
+        android:padding="40dp"
+        android:src="@drawable/logo2" />
+
+    <!--   Old app icon
+    android:background="@mipmap/logo"-->
 
 
     <ProgressBar

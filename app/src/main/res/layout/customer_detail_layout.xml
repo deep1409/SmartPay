@@ -16,8 +16,10 @@
         android:layout_marginTop="30dp"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="5dp"
-        android:background="@mipmap/logo" />
+        android:background="@drawable/logo2" />
 
+    <!--   Old app icon
+    android:background="@mipmap/logo"-->
 
     <ScrollView
         android:id="@+id/MainForm"
