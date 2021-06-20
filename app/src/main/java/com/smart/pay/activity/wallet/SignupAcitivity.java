@@ -83,7 +83,9 @@ public class SignupAcitivity extends AppCompatActivity {
                 } else if (strUserPassword.length() < 6) {
                     txtUserPassword.setFocusable(true);
                     txtUserPassword.setError("Enter password,with atleast 6 digit");
-                } else {
+                } else if(!checkbocremember.isChecked()) {
+                    Toast.makeText(SignupAcitivity.this, "Please Accept the Terms and Conditions", Toast.LENGTH_LONG).show();
+                }else{
                     userSignupRequest();
                 }
 
