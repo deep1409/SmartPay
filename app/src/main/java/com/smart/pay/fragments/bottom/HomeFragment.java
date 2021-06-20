@@ -156,122 +156,121 @@ public class HomeFragment extends Fragment {
             textSliderView.bundle(new Bundle());
             textSliderView.getBundle().putString("extra", name);
 
-            slider_home2.addSlider(textSliderView);
+           slider_home2.addSlider(textSliderView);
 
             textSliderView.bundle(new Bundle());
 
             slider_home2.addSlider(textSliderView);
 
-
         }
 
         slider_home2.setPresetTransformer(SliderLayout.Transformer.Default);
         slider_home2.setCustomIndicator(custom_indicator_home2);
-//                            mImageSlider.setCurrentPosition(-1);
-        //     mImageSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+//        mImageSlider.setCurrentPosition(-1);
+//        mImageSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         slider_home2.setPadding(0, 0, 0, 5);
         slider_home2.setCustomAnimation(new ChildAnimationExample());
 
 
-        llRecharge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            llRecharge.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                Intent intent = new Intent(getActivity(), MobileRechargeActivity.class);
-                startActivity(intent);
+                    Intent intent = new Intent(getActivity(), MobileRechargeActivity.class);
+                    startActivity(intent);
 
-            }
-        });
-
-
-        llPayments.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(getActivity(), PaymentsActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-        llTrainTicket.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(getActivity(), TravelActivity.class);
-                intent.putExtra("travel", "train");
-                startActivity(intent);
-
-            }
-        });
-
-        llFlightTicket.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(getActivity(), TravelActivity.class);
-                intent.putExtra("travel", "flight");
-                startActivity(intent);
-
-            }
-        });
-
-        llBus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(getActivity(), TravelActivity.class);
-                intent.putExtra("travel", "bus");
-                startActivity(intent);
-
-            }
-        });
+                }
+            });
 
 
-        llMovieTicket.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            llPayments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                Intent intent = new Intent(getActivity(), MovieTicketsActivity.class);
-                startActivity(intent);
+                    Intent intent = new Intent(getActivity(), PaymentsActivity.class);
+                    startActivity(intent);
 
-            }
-        });
+                }
+            });
 
-        llHotels.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            llTrainTicket.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                Intent intent = new Intent(getActivity(), HotelSearchActivity.class);
-                startActivity(intent);
+                    Intent intent = new Intent(getActivity(), TravelActivity.class);
+                    intent.putExtra("travel", "train");
+                    startActivity(intent);
 
-            }
-        });
+                }
+            });
 
-        llPayNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            llFlightTicket.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                Intent intent = new Intent(getActivity(), PayNowActivity.class);
-                startActivity(intent);
+                    Intent intent = new Intent(getActivity(), TravelActivity.class);
+                    intent.putExtra("travel", "flight");
+                    startActivity(intent);
 
-            }
-        });
+                }
+            });
 
-        llAddMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            llBus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                Intent intent = new Intent(getActivity(), AddMoneyToWallet.class);
-                startActivity(intent);
+                    Intent intent = new Intent(getActivity(), TravelActivity.class);
+                    intent.putExtra("travel", "bus");
+                    startActivity(intent);
 
-            }
-        });
+                }
+            });
 
-        getTopShoppingOffersRequest();
 
-        return mView;
-    }
+            llMovieTicket.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(getActivity(), MovieTicketsActivity.class);
+                    startActivity(intent);
+
+                }
+            });
+
+            llHotels.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(getActivity(), HotelSearchActivity.class);
+                    startActivity(intent);
+
+                }
+            });
+
+            llPayNow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(getActivity(), PayNowActivity.class);
+                    startActivity(intent);
+
+                }
+            });
+
+            llAddMoney.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(getActivity(), AddMoneyToWallet.class);
+                    startActivity(intent);
+
+                }
+            });
+
+            // getTopShoppingOffersRequest();
+
+            return mView;
+        }
 
     private void getTopShoppingOffersRequest() {
         String xAccessToken = "mykey";
@@ -307,9 +306,7 @@ public class HomeFragment extends Fragment {
                 Log.i("tag", t.getMessage().toString());
             }
         });
-
-
-    }
+   }
 
 
 }

@@ -141,13 +141,13 @@ public class SignInActivity extends AppCompatActivity {
                             startActivity(new Intent(SignInActivity.this,HomeActivity.class));
                             finish();
 
-                            SharedPreferences mSharedPreferences;
-                            SharedPreferences.Editor editor;
-
-                            mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                            editor = mSharedPreferences.edit();
-                            editor.putString("email_id",strMobile.toString());
-                            editor.commit();
+//                            SharedPreferences mSharedPreferences;
+//                            SharedPreferences.Editor editor;
+//
+//                            mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//                            editor = mSharedPreferences.edit();
+//                            editor.putString("email_id",strMobile.toString());
+//                            editor.commit();
 
                             /*mSP.edit().putBoolean("logged",true).apply();
                             mSP.edit().putString("email",strMobile.toString()).apply();*/

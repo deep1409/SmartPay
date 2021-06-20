@@ -8,24 +8,23 @@
 
     <item
         android:id="@+id/action_shopping"
-
-        android:title="" />
+        android:icon="@drawable/ic_shopping"
+        android:title="Mall" />
 
     <item
         android:id="@+id/action_scan"
-
-        android:title="" />
+        android:icon="@drawable/ic_scan"
+        android:title="Scan" />
 
     <item
         android:id="@+id/action_bank"
-
-        android:title="" />
+        android:icon="@drawable/ic_bank"
+        android:title="Bank" />
 
     <item
         android:id="@+id/action_inbox"
-
-        android:title="" />
-
+        android:icon="@drawable/ic_inbox"
+        android:title="Inbox" />
 
 </menu>
 
@@ -39,23 +38,23 @@
 
 <!--<item-->
 <!--    android:id="@+id/action_shopping"-->
-<!--    android:icon="@drawable/ic_shopping"-->
-<!--    android:title="Mall" />-->
+
+<!--    android:title="" />-->
 
 <!--<item-->
 <!--    android:id="@+id/action_scan"-->
-<!--    android:icon="@drawable/ic_scan"-->
-<!--    android:title="Scan" />-->
+
+<!--    android:title="" />-->
 
 <!--<item-->
 <!--    android:id="@+id/action_bank"-->
-<!--    android:icon="@drawable/ic_bank"-->
-<!--    android:title="Bank" />-->
+
+<!--    android:title="" />-->
 
 <!--<item-->
 <!--    android:id="@+id/action_inbox"-->
-<!--    android:icon="@drawable/ic_inbox"-->
-<!--    android:title="Inbox" />-->
+
+<!--    android:title="" />-->
 
 
 <!--</menu>-->
