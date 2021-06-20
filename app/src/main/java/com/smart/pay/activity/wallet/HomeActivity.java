@@ -67,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
         try{
             sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             shared_email_id = sp.getString("email_id", "");
-            Toast.makeText(this, ""+shared_email_id, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, ""+shared_email_id, Toast.LENGTH_SHORT).show();
         }
         catch (Exception e){
             Log.d("MyProfile", "Exeption: "+e);
