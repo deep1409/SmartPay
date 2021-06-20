@@ -11,8 +11,10 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ import com.google.gson.JsonObject;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 import com.smart.pay.R;
+import com.smart.pay.Retrofit_Models.MobileRechargeOperatorPojo;
 import com.smart.pay.Retrofit_Models.RechargeModel;
 import com.smart.pay.SmartPayApplication;
 import com.smart.pay.api.ApiUtils;
@@ -39,6 +42,10 @@ import com.smart.pay.views.MyEditText;
 import com.smart.pay.views.MyTextView;
 
 import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -55,8 +62,9 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
     private static final int RESULT_PICK_CONTACT=1;
 
     MyTextView payButton;
-
+    Spinner spinner;
     Switch rechargeSwitch;
+    List<MobileRechargeOperatorPojo> list;
 
     ImageView contact_list;
     MyEditText edtphone_number;
@@ -82,17 +90,35 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
 
         mainAPIInterface = ApiUtils.getAPIService();
 
-
+        spinner = findViewById(R.id.spinner);
         payButton = (MyTextView) findViewById(R.id.payButton);
         rechargeSwitch = (Switch) findViewById(R.id.rechargeSwitch);
 
         edtphone_number = (MyEditText) findViewById(R.id.edtphone_number);
-        edtOperator = (MyEditText) findViewById(R.id.edtOperator);
+//        edtOperator = (MyEditText) findViewById(R.id.edtOperator);
         edtAmount = (MyEditText) findViewById(R.id.edtAmount);
 
         btnSeePlans = (MyTextView) findViewById(R.id.btnSeePlans);
 
         contact_list = findViewById(R.id.contact_list);
+
+        String[] textsize = getResources().getStringArray(R.array.PrePaid);
+        String[] idsize = getResources().getStringArray(R.array.PostPaid);
+
+        final ArrayAdapter adapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,idsize);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+
+//        list = new ArrayList<>();
+//        for(int i=0; i<textsize.length+1; i++){
+//            list.add(new MobileRechargeOperatorPojo(textsize[i], idsize[i]));
+//        }
+
+        final ArrayAdapter adapter1 = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,textsize);
+        adapter1.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter1);
+
 
         contact_list.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,9 +135,11 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
                 Log.v("Switch State=", "" + isChecked);
 
                 if (isChecked) {
-                    recharge_type = "2";
-                } else {
                     recharge_type = "1";
+                    spinner.setAdapter(adapter);
+                } else {
+                    recharge_type = "2";
+                    spinner.setAdapter(adapter1);
                 }
 
             }
