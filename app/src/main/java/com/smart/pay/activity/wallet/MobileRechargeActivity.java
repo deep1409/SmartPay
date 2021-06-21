@@ -112,7 +112,6 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-
 //        list = new ArrayList<>();
 //        for(int i=0; i<textsize.length+1; i++){
 //            list.add(new MobileRechargeOperatorPojo(textsize[i], idsize[i]));
