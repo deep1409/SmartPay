@@ -14,7 +14,7 @@ public class Constants {
     public static final String USER_SIGNUP = "send_data";
 
     //M-PESA Recharge API
-    public static final String RECHARGE = "Recharge";
+    public static final String RECHARGE = "transaction";
 
 
     public static final String USER_MOBILE_REGISTRATION = "Smartpay/user_phone_no_registration";

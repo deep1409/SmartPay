@@ -35,6 +35,7 @@ import com.smart.pay.Retrofit_Models.MobileRechargeOperatorPojo;
 import com.smart.pay.Retrofit_Models.RechargeModel;
 import com.smart.pay.SmartPayApplication;
 import com.smart.pay.api.ApiUtils;
+import com.smart.pay.api.Constants;
 import com.smart.pay.api.MainAPIInterface;
 import com.smart.pay.models.input.MobileRechargeModel;
 import com.smart.pay.models.output.CommonOutput;
@@ -312,7 +313,7 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
         builder.show();
     }
 
-    public  void m_recharge(){
+    public  void pay2all_recharge(){
 
         newProgressDialog = new ProgressDialog(MobileRechargeActivity.this);
 
@@ -323,15 +324,15 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
                 .setLenient()
                 .create();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://mpesa.co.in/Recharge/")
+     /*   Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.SERVER_URL)
                 // as we are sending data in json format so
                 // we have to add Gson converter factory
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 // at last we are building our retrofit builder.
                 .build();
 
-        /*MainAPIInterface mainAPIInterface1 = retrofit.create(MainAPIInterface.class);
+        MainAPIInterface mainAPIInterface1 = retrofit.create(MainAPIInterface.class);
 
         RechargeModel rechargeModel = new RechargeModel("","","","","","","");
 

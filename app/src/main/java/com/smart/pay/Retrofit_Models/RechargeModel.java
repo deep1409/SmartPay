@@ -4,79 +4,47 @@ import com.google.gson.annotations.SerializedName;
 
 public class RechargeModel {
 
-    public RechargeModel(String phonenumber, String tokenid, String admin_email, String amount, String operator_code, String recharge_id) {
-        this.phonenumber = phonenumber;
-        Tokenid = tokenid;
-        this.admin_email = admin_email;
-        Amount = amount;
-        this.operator_code = operator_code;
-        this.recharge_id = recharge_id;
+    public RechargeModel() {
     }
 
-    @SerializedName("Customernumber")
-    String phonenumber;
+    String number,provider_id,amount,payment_id;
 
-    @SerializedName("Tokenid") //generated token
-    String Tokenid ;
-
-    @SerializedName("Userid")  //registered email address of admin
-     String admin_email ;
-
-
-    @SerializedName("Amount")
-     String Amount ;
-
-    @SerializedName("Optcode") //operator code
-     String operator_code ;
-
-    @SerializedName("Yourrchid") //unique recharge id
-     String recharge_id;
-
-    public String getTokenid() {
-        return Tokenid;
+    public RechargeModel(String number, String provider_id, String amount, String payment_id) {
+        this.number = number;
+        this.provider_id = provider_id;
+        this.amount = amount;
+        this.payment_id = payment_id;
     }
 
-    public void setTokenid(String tokenid) {
-        Tokenid = tokenid;
+    public String getNumber() {
+        return number;
     }
 
-    public String getAdmin_email() {
-        return admin_email;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
-    public void setAdmin_email(String admin_email) {
-        this.admin_email = admin_email;
+    public String getProvider_id() {
+        return provider_id;
+    }
+
+    public void setProvider_id(String provider_id) {
+        this.provider_id = provider_id;
     }
 
     public String getAmount() {
-        return Amount;
+        return amount;
     }
 
     public void setAmount(String amount) {
-        Amount = amount;
+        this.amount = amount;
     }
 
-    public String getOperator_code() {
-        return operator_code;
+    public String getPayment_id() {
+        return payment_id;
     }
 
-    public void setOperator_code(String operator_code) {
-        this.operator_code = operator_code;
-    }
-
-    public String getRecharge_id() {
-        return recharge_id;
-    }
-
-    public void setRecharge_id(String recharge_id) {
-        this.recharge_id = recharge_id;
-    }
-
-    public String getPhonenumber() {
-        return phonenumber;
-    }
-
-    public void setPhonenumber(String phonenumber) {
-        this.phonenumber = phonenumber;
+    public void setPayment_id(String payment_id) {
+        this.payment_id = payment_id;
     }
 }

@@ -91,7 +91,6 @@ public interface  MainAPIInterface<R extends Retrofit> {
 
     @POST(Constants.RECHARGE)  //mpesa
     Call<ResponseBody> mpesa_recharge(
-            @Header("content-type : application/json")
             @Body RechargeModel rechargeModel
             );
 
