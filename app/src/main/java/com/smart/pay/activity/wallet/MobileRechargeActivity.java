@@ -137,10 +137,10 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
         prepaid_list.add(new MobileRechargeOperatorPojo("DOCOMO","JIOPR"));
         prepaid_list.add(new MobileRechargeOperatorPojo("JIO","JIOL"));
 
-        postpaid_list.add(new MobileRechargeOperatorPojo("Reliance PostPaid","RP "));
-        postpaid_list.add(new MobileRechargeOperatorPojo("Tata Docomo","T D"));
-        postpaid_list.add(new MobileRechargeOperatorPojo("BSNL PostPaid ","BP"));
-        postpaid_list.add(new MobileRechargeOperatorPojo("JIO Postpaid","JIOP"));
+        prepaid_list.add(new MobileRechargeOperatorPojo("Reliance PostPaid","RP "));
+        prepaid_list.add(new MobileRechargeOperatorPojo("Tata Docomo","T D"));
+        prepaid_list.add(new MobileRechargeOperatorPojo("BSNL PostPaid ","BP"));
+        prepaid_list.add(new MobileRechargeOperatorPojo("JIO Postpaid","JIOP"));
 
 
 
@@ -174,6 +174,8 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
 
                             Log.d("TAG","COde "+code);
 
+                            Toast.makeText(MobileRechargeActivity.this, ""+code, Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override
@@ -190,11 +192,13 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                            int a= spinner.getSelectedItemPosition();
+                            int a= spinner.getSelectedItemPosition() + 10;
 
-                            code =postpaid_list.get(a).getOperatorCode();
+                            code =prepaid_list.get(a).getOperatorCode();
 
                             Log.d("TAG","COde "+code);
+
+                            Toast.makeText(MobileRechargeActivity.this, ""+code, Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -313,7 +317,7 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
         builder.show();
     }
 
-    public  void pay2all_recharge(){
+    public  void pay2all_recharge(String payment_id){
 
         newProgressDialog = new ProgressDialog(MobileRechargeActivity.this);
 
@@ -324,7 +328,7 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
                 .setLenient()
                 .create();
 
-     /*   Retrofit retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.SERVER_URL)
                 // as we are sending data in json format so
                 // we have to add Gson converter factory
@@ -334,7 +338,7 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
 
         MainAPIInterface mainAPIInterface1 = retrofit.create(MainAPIInterface.class);
 
-        RechargeModel rechargeModel = new RechargeModel("","","","","","","");
+        RechargeModel rechargeModel = new RechargeModel(strPhone,"1",strAmount,payment_id);
 
         Call<ResponseBody> call = mainAPIInterface1.mpesa_recharge(rechargeModel);
 
@@ -348,7 +352,7 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
             public void onFailure(Call<ResponseBody> call, Throwable t) {
 
             }
-        });*/
+        });
 
     }
 
