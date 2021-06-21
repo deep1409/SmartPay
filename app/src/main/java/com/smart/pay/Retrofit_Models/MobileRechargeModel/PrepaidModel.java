@@ -1,12 +1,12 @@
-package com.smart.pay.Retrofit_Models;
+package com.smart.pay.Retrofit_Models.MobileRechargeModel;
 
-public class MobileRechargeOperatorPojo {
+public class PrepaidModel {
     String OperatorName,OperatorCode;
 
-    public MobileRechargeOperatorPojo() {
+    public PrepaidModel() {
     }
 
-    public MobileRechargeOperatorPojo(String operatorName, String operatorCode) {
+    public PrepaidModel(String operatorName, String operatorCode) {
         OperatorName = operatorName;
         OperatorCode = operatorCode;
     }

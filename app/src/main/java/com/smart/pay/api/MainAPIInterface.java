@@ -90,7 +90,7 @@ public interface  MainAPIInterface<R extends Retrofit> {
             );
 
     @POST(Constants.RECHARGE)  //mpesa
-    Call<ResponseBody> mpesa_recharge(
+    Call<ResponseBody> pay2all_recharge(
             @Body RechargeModel rechargeModel
             );
 

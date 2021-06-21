@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="PrePaid">
-        <item> Airtel</item>
-        <item> BSNL Topup</item>
-        <item> BSNL Recharge </item>
-        <item>Idea</item>
-        <item>Vodafone</item>
-        <item>Mtnl TopUp</item>
-        <item>Mtnl Special</item>
+        <item>Select Operator</item>
+        <item>Airtel</item>
+        <item>VI</item>
+        <item>Tata DOCOMO </item>
         <item>JIO</item>
-        <item>JIO PRIME</item>
-        <item>Jio Lite </item>
+        <item>BSNL</item>
     </string-array>
 
 <!--    <string-array name="PrePaid_id">-->
@@ -28,10 +24,8 @@
 
 
     <string-array name="PostPaid">
-        <item> Reliance PostPaid </item>
-        <item> Tata Docomo PostPaid</item>
-        <item> BSNL PostPaid </item>
-        <item> JIO Postpaid </item>
+        <item>Select Operator</item>
+        <item> Airtel Postpaid </item>
     </string-array>
 
 </resources>

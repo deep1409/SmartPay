@@ -11,7 +11,6 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -20,18 +19,17 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 import com.smart.pay.R;
-import com.smart.pay.Retrofit_Models.MobileRechargeOperatorPojo;
+import com.smart.pay.Retrofit_Models.MobileRechargeModel.PostpaidModel;
+import com.smart.pay.Retrofit_Models.MobileRechargeModel.PrepaidModel;
 import com.smart.pay.Retrofit_Models.RechargeModel;
 import com.smart.pay.SmartPayApplication;
 import com.smart.pay.api.ApiUtils;
@@ -45,9 +43,10 @@ import com.smart.pay.views.MyTextView;
 
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -57,17 +56,16 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.smart.pay.utils.DataVaultManager.KEY_USER_ID;
-import static com.smart.pay.utils.DataVaultManager.KEY_WALLET_ID;
 
 public class MobileRechargeActivity extends AppCompatActivity implements PaymentResultListener {
 
     private static final int RESULT_PICK_CONTACT=1;
 
     MyTextView payButton;
-    Spinner spinner;
+    Spinner spinner,postpaid_spinner;
     Switch rechargeSwitch;
-    List<MobileRechargeOperatorPojo> list;
-    List<MobileRechargeOperatorPojo> prepaid_list,postpaid_list;
+    List<PostpaidModel> postpaid_list;
+    List<PrepaidModel> prepaid_list;
     String code;
 
     ImageView contact_list;
@@ -77,7 +75,7 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
 
     MyTextView btnSeePlans;
 
-    String strPhone, strOperatorCode, strAmount, strPlan, recharge_type = "1";
+    String strPhone,strOperatorName, strOperatorCode, strAmount, strPlan, recharge_type = "1";
 
     ProgressDialog newProgressDialog;
     MainAPIInterface mainAPIInterface;
@@ -96,6 +94,7 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
         spinner = findViewById(R.id.spinner);
         payButton = (MyTextView) findViewById(R.id.payButton);
         rechargeSwitch = (Switch) findViewById(R.id.rechargeSwitch);
+        postpaid_spinner = findViewById(R.id.postpaid_spinner);
 
         edtphone_number = (MyEditText) findViewById(R.id.edtphone_number);
         //edtOperator = (MyEditText) findViewById(R.id.);
@@ -105,41 +104,47 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
 
         contact_list = findViewById(R.id.contact_list);
 
-        String[] textsize = getResources().getStringArray(R.array.PrePaid);
-        String[] idsize = getResources().getStringArray(R.array.PostPaid);
+        String[] prepaid_array = getResources().getStringArray(R.array.PrePaid);
+        String[] postpaid_array = getResources().getStringArray(R.array.PostPaid);
 
-        final ArrayAdapter adapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,idsize);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        final ArrayAdapter prepaid_adapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,prepaid_array);
+        prepaid_adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner.setAdapter(prepaid_adapter);
 
-//        list = new ArrayList<>();
-//        for(int i=0; i<textsize.length+1; i++){
-//            list.add(new MobileRechargeOperatorPojo(textsize[i], idsize[i]));
-//        }
-
-        final ArrayAdapter adapter1 = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,textsize);
-        adapter1.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter1);
+        final ArrayAdapter postpaid_adapter = new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,postpaid_array);
+        postpaid_adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner.setAdapter(postpaid_adapter);
 
         prepaid_list = new ArrayList<>();
         postpaid_list = new ArrayList<>();
 
-        prepaid_list.add(new MobileRechargeOperatorPojo("Airtel","AD"));
-        prepaid_list.add(new MobileRechargeOperatorPojo("VI","B"));
-        prepaid_list.add(new MobileRechargeOperatorPojo("DOCOMO","BR"));
-        prepaid_list.add(new MobileRechargeOperatorPojo("JIO","I"));
-        prepaid_list.add(new MobileRechargeOperatorPojo("Airtel","V"));
-        prepaid_list.add(new MobileRechargeOperatorPojo("VI","MT"));
-        prepaid_list.add(new MobileRechargeOperatorPojo("DOCOMO","MR"));
-        prepaid_list.add(new MobileRechargeOperatorPojo("JIO","JIO"));
-        prepaid_list.add(new MobileRechargeOperatorPojo("DOCOMO","JIOPR"));
-        prepaid_list.add(new MobileRechargeOperatorPojo("JIO","JIOL"));
+        prepaid_list.add(new PrepaidModel("Select Operator","0"));
+        prepaid_list.add(new PrepaidModel("Airtel","1"));
+        prepaid_list.add(new PrepaidModel("VI","2"));
+        prepaid_list.add(new PrepaidModel("Tata DOCOMO","5"));
+        prepaid_list.add(new PrepaidModel("JIO","88"));
+        prepaid_list.add(new PrepaidModel("BSNL","8"));
 
-        prepaid_list.add(new MobileRechargeOperatorPojo("Reliance PostPaid","RP "));
-        prepaid_list.add(new MobileRechargeOperatorPojo("Tata Docomo","T D"));
-        prepaid_list.add(new MobileRechargeOperatorPojo("BSNL PostPaid ","BP"));
-        prepaid_list.add(new MobileRechargeOperatorPojo("JIO Postpaid","JIOP"));
+        postpaid_list.add(new PostpaidModel("Select Operator","0"));
+        postpaid_list.add(new PostpaidModel("Airtel Postpaid","23"));
 
+
+        spinner.setAdapter(prepaid_adapter);
+        postpaid_spinner.setAdapter(postpaid_adapter);
+
+        rechargeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    postpaid_spinner.setVisibility(View.VISIBLE);
+                    spinner.setVisibility(View.GONE);
+
+                }else{
+                    postpaid_spinner.setVisibility(View.GONE);
+                    spinner.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
 
         contact_list.setOnClickListener(new View.OnClickListener() {
@@ -150,86 +155,59 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
             }
         });
 
-        rechargeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-
-                Log.v("Switch State=", "" + isChecked);
-
-                if (isChecked) {
-                    recharge_type = "1";
-                    spinner.setAdapter(adapter);
-
-                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                            int a= spinner.getSelectedItemPosition();
-
-                            code =prepaid_list.get(a).getOperatorCode();
-
-                            Log.d("TAG","COde "+code);
-
-                            Toast.makeText(MobileRechargeActivity.this, ""+code, Toast.LENGTH_SHORT).show();
-
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapterView) {
-
-                        }
-                    });
-                }else{
-
-                    recharge_type = "2";
-                    spinner.setAdapter(adapter1);
-
-                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                            int a= spinner.getSelectedItemPosition() + 10;
-
-                            code =prepaid_list.get(a).getOperatorCode();
-
-                            Log.d("TAG","COde "+code);
-
-                            Toast.makeText(MobileRechargeActivity.this, ""+code, Toast.LENGTH_SHORT).show();
-
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapterView) {
-
-                        }
-                    });
-                }
-
-            }
-        });
 
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 strPhone = edtphone_number.getText().toString();
-                //strOperatorCode = spinner.getSelectedItem().toString();
-                strOperatorCode = code;
+//                //strOperatorCode = spinner.getSelectedItem().toString();
+//                strOperatorCode = code;
                 strAmount = edtAmount.getText().toString();
 
-                if (strPhone.length() == 0) {
-                    edtphone_number.setError("Enter mobile number");
+                if (strPhone.length() != 10) {
+                    edtphone_number.setError("Enter valid mobile number");
                     edtphone_number.setFocusable(true);
                 }else if (strAmount.length() == 0) {
                    edtAmount.setFocusable(true);
                     edtAmount.setError("Enter the amount");
-                } else {
+                } else if(!rechargeSwitch.isChecked()) {
 
-                  //  placeRechargeRequest();
+                    if(spinner.getSelectedItemPosition() == 0){
+                        Toast.makeText(MobileRechargeActivity.this, "Select a operator", Toast.LENGTH_SHORT).show();
+                    }else{
+                        strOperatorName = spinner.getSelectedItem().toString();
 
-                    openRazorPay();
+                        int i = spinner.getSelectedItemPosition();
+                        strOperatorCode = prepaid_list.get(i).getOperatorCode();
+                        Toast.makeText(MobileRechargeActivity.this, "Name: "+strOperatorName +"Code: "+strOperatorCode, Toast.LENGTH_SHORT).show();
+                        Log.v("Spinner","Name: "+strOperatorName +"Code: "+strOperatorCode);
 
-                }
+                        openRazorPay();
+
+                    }
+
+                }else if(rechargeSwitch.isChecked()){
+
+                    if(postpaid_spinner.getSelectedItemPosition() == 0){
+                        Toast.makeText(MobileRechargeActivity.this, "Select a operator", Toast.LENGTH_SHORT).show();
+                    }else{
+                        strOperatorName = postpaid_spinner.getSelectedItem().toString();
+
+                        int i = postpaid_spinner.getSelectedItemPosition();
+                        strOperatorCode = postpaid_list.get(i).getOperator_code();
+
+                        Toast.makeText(MobileRechargeActivity.this, "Name: "+strOperatorName +"Code: "+strOperatorCode, Toast.LENGTH_SHORT).show();
+                        Log.v("Spinner","Name: "+strOperatorName +"Code: "+strOperatorCode);
+
+                        openRazorPay();
+
+                    }
+
+                } //else{
+//                 placeRechargeRequest();
+//                 openRazorPay();
+//                 }
 
             }
         });
@@ -245,7 +223,7 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
         Checkout checkout = new Checkout();
 
         //Api key
-        checkout.setKeyID("rzp_test_ghacHhDVqlrHSf");
+        checkout.setKeyID("rzp_test_JFuybZfgB8g4hL");
 
         //Set Image
         checkout.setImage(R.drawable.logo2);
@@ -256,10 +234,10 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
         try {
 
             //Name
-            object.put("name","Mobile Recharge");
+            object.put("name","+91 "+strPhone); //strOperatorName + " Mobile Recharge"
 
             //Description
-            object.put("description","Test Payment");
+            object.put("description",strOperatorName + " Mobile Recharge"); //"for "+strPhone
 
             //Theme Color
             object.put("theme.color","#0093DD");
@@ -270,8 +248,8 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
             //Amount
             object.put("amount",amount);
 
-//            Contact number
-       //     object.put("prefill.contact",strPhone);
+//            //Contact number
+//            object.put("prefill.contact",strPhone);
 //            //Email
 //            object.put("prefill.email","youremail@gmail.com");
 
@@ -284,14 +262,19 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
     }
 
     @Override
-    public void onPaymentSuccess(String s) {
+    public void onPaymentSuccess(String payment_id) {
         Context context;
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //        builder.setTitle("Payment ID");
 //        builder.setMessage(s);
 //        builder.show();
 
-        abc(s);
+       // abc(payment_id);
+
+        Log.v("Recharge_Pay2all","Pay2all called");
+        Log.v("Recharge_Pay2all","payment_id: "+payment_id);
+
+        pay2all_recharge(payment_id);
 
     }
 
@@ -317,7 +300,7 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
 
         newProgressDialog = new ProgressDialog(MobileRechargeActivity.this);
 
-        newProgressDialog.setMessage("Adding your details.");
+        newProgressDialog.setMessage("Recharge Initiated");
         newProgressDialog.show();
 
         Gson gson = new GsonBuilder()
@@ -332,15 +315,54 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
                 // at last we are building our retrofit builder.
                 .build();
 
-        MainAPIInterface mainAPIInterface1 = retrofit.create(MainAPIInterface.class);
+        MainAPIInterface retrofitInterface = retrofit.create(MainAPIInterface.class);
 
-        RechargeModel rechargeModel = new RechargeModel(strPhone,"1",strAmount,payment_id);
+        RechargeModel rechargeModel = new RechargeModel(strPhone,""+strOperatorCode,strAmount,payment_id);
 
-        Call<ResponseBody> call = mainAPIInterface1.mpesa_recharge(rechargeModel);
+        Call<ResponseBody> call = retrofitInterface.pay2all_recharge(rechargeModel);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                if(response.isSuccessful()){
+                    String s;
+                    try {
+                        s = response.body().string();
+                        Log.d("Recharge_Pay2all","String S: "+s);
+
+                        JSONObject object = new JSONObject(s);
+
+                        String status = object.getString("status");
+                        //Toast.makeText(MobileRechargeActivity.this, "out :"+status, Toast.LENGTH_SHORT).show();
+
+                        Log.d("Recharge_Pay2all","Status "+status);
+                        String message = object.getString("message");
+
+                        if(status.equals("success")){
+
+                            Log.d("Recharge_Pay2all","success "+status);
+                            newProgressDialog.dismiss();
+
+                            Toast.makeText(MobileRechargeActivity.this, "Your recharge was Succcessfull", Toast.LENGTH_SHORT).show();
+                        }
+                        else if(status.equals("failure")){
+
+                            Log.d("Recharge_Pay2all","failure ");
+                            newProgressDialog.dismiss();
+                            Toast.makeText(MobileRechargeActivity.this, ""+message, Toast.LENGTH_SHORT).show();
+
+                        }else if(status.equals("pending")){
+
+                            Log.d("Recharge_Pay2all","pending ");
+                            newProgressDialog.dismiss();
+                            Toast.makeText(MobileRechargeActivity.this, ""+message, Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
             }
 
@@ -349,6 +371,10 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
 
             }
         });
+
+    }
+
+    public void refund(String payment_id){
 
     }
 
@@ -502,3 +528,62 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
     }
 
 }
+
+//        rechargeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+//
+//                Log.v("Switch State=", "" + isChecked);
+//
+//                if (isChecked) {
+//                    recharge_type = "1";
+//                    spinner.setAdapter(adapter);
+//
+//                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                        @Override
+//                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//                            int a= spinner.getSelectedItemPosition();
+//
+//                            code =prepaid_list.get(a).getOperatorCode();
+//
+//                            Log.d("TAG","COde "+code);
+//
+//                            Toast.makeText(MobileRechargeActivity.this, ""+code, Toast.LENGTH_SHORT).show();
+//
+//                        }
+//
+//                        @Override
+//                        public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//                        }
+//                    });
+//                }else{
+//                    spinner.setVisibility(View.GONE);
+//                    postpaid_spinner.setAdapter(adapter1);
+//
+//                    recharge_type = "2";
+//
+//                    postpaid_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                        @Override
+//                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//                            int a= spinner.getSelectedItemPosition() + 10;
+//
+//                            code =prepaid_list.get(a).getOperatorCode();
+//
+//                            Log.d("TAG","COde "+code);
+//
+//                            Toast.makeText(MobileRechargeActivity.this, ""+code, Toast.LENGTH_SHORT).show();
+//
+//                        }
+//
+//                        @Override
+//                        public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//                        }
+//                    });
+//                }
+//
+//            }
+//        });

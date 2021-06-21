@@ -13,7 +13,7 @@ public class Constants {
     public static final String USER_LOGIN = "auth";
     public static final String USER_SIGNUP = "send_data";
 
-    //M-PESA Recharge API
+    //Pay-2-ALL Recharge API
     public static final String RECHARGE = "transaction";
 
 
