@@ -84,7 +84,6 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
 
     int amount;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
