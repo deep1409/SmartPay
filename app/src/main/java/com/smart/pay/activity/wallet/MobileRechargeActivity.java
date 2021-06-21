@@ -11,6 +11,7 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -65,6 +66,8 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
     Spinner spinner;
     Switch rechargeSwitch;
     List<MobileRechargeOperatorPojo> list;
+    List<MobileRechargeOperatorPojo> prepaid_list,postpaid_list;
+    String code;
 
     ImageView contact_list;
     MyEditText edtphone_number;
@@ -95,7 +98,7 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
         rechargeSwitch = (Switch) findViewById(R.id.rechargeSwitch);
 
         edtphone_number = (MyEditText) findViewById(R.id.edtphone_number);
-//        edtOperator = (MyEditText) findViewById(R.id.edtOperator);
+        //edtOperator = (MyEditText) findViewById(R.id.);
         edtAmount = (MyEditText) findViewById(R.id.edtAmount);
 
         btnSeePlans = (MyTextView) findViewById(R.id.btnSeePlans);
@@ -119,6 +122,28 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
         adapter1.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter1);
 
+        prepaid_list = new ArrayList<>();
+        postpaid_list = new ArrayList<>();
+
+        prepaid_list.add(new MobileRechargeOperatorPojo("Airtel","AD"));
+        prepaid_list.add(new MobileRechargeOperatorPojo("VI","B"));
+        prepaid_list.add(new MobileRechargeOperatorPojo("DOCOMO","BR"));
+        prepaid_list.add(new MobileRechargeOperatorPojo("JIO","I"));
+        prepaid_list.add(new MobileRechargeOperatorPojo("Airtel","V"));
+        prepaid_list.add(new MobileRechargeOperatorPojo("VI","MT"));
+        prepaid_list.add(new MobileRechargeOperatorPojo("DOCOMO","MR"));
+        prepaid_list.add(new MobileRechargeOperatorPojo("JIO","JIO"));
+        prepaid_list.add(new MobileRechargeOperatorPojo("DOCOMO","JIOPR"));
+        prepaid_list.add(new MobileRechargeOperatorPojo("JIO","JIOL"));
+
+        postpaid_list.add(new MobileRechargeOperatorPojo("Reliance PostPaid","RP "));
+        postpaid_list.add(new MobileRechargeOperatorPojo("Tata Docomo","T D"));
+        postpaid_list.add(new MobileRechargeOperatorPojo("BSNL PostPaid ","BP"));
+        postpaid_list.add(new MobileRechargeOperatorPojo("JIO Postpaid","JIOP"));
+
+
+
+
 
         contact_list.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,9 +162,46 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
                 if (isChecked) {
                     recharge_type = "1";
                     spinner.setAdapter(adapter);
-                } else {
+
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            int a= spinner.getSelectedItemPosition();
+
+                            code =prepaid_list.get(a).getOperatorCode();
+
+                            Log.d("TAG","COde "+code);
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                }else{
+
                     recharge_type = "2";
                     spinner.setAdapter(adapter1);
+
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            int a= spinner.getSelectedItemPosition();
+
+                            code =postpaid_list.get(a).getOperatorCode();
+
+                            Log.d("TAG","COde "+code);
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
                 }
 
             }
@@ -150,17 +212,15 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
             public void onClick(View view) {
 
                 strPhone = edtphone_number.getText().toString();
-                strOperatorCode = edtOperator.getText().toString();
+                //strOperatorCode = spinner.getSelectedItem().toString();
+                strOperatorCode = code;
                 strAmount = edtAmount.getText().toString();
 
                 if (strPhone.length() == 0) {
                     edtphone_number.setError("Enter mobile number");
                     edtphone_number.setFocusable(true);
-                } else if (strOperatorCode.length() == 0) {
-                    edtOperator.setFocusable(true);
-                    edtOperator.setError("Select Operator");
-                } else if (strAmount.length() == 0) {
-                    edtAmount.setFocusable(true);
+                }else if (strAmount.length() == 0) {
+                   edtAmount.setFocusable(true);
                     edtAmount.setError("Enter the amount");
                 } else {
 
@@ -209,8 +269,8 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
             //Amount
             object.put("amount",amount);
 
-//            //Contact number
-//            object.put("prefill.contact",strPhone);
+//            Contact number
+       //     object.put("prefill.contact",strPhone);
 //            //Email
 //            object.put("prefill.email","youremail@gmail.com");
 
@@ -220,6 +280,36 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void onPaymentSuccess(String s) {
+        Context context;
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Payment ID");
+//        builder.setMessage(s);
+//        builder.show();
+
+        abc(s);
+
+    }
+
+    public void abc(String id){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Payment ID");
+        builder.setMessage("Phone Number: "+strPhone +"\nAmount: "+strAmount +"\nPayment ID: "+id);
+        builder.show();
+
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+        //   Toast.makeText(this, "Payment failed "+s, Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Payment Failed");
+        builder.setMessage(s);
+        builder.show();
     }
 
     public  void m_recharge(){
@@ -410,33 +500,4 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
         }
     }
 
-    @Override
-    public void onPaymentSuccess(String s) {
-        Context context;
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Payment ID");
-//        builder.setMessage(s);
-//        builder.show();
-
-        abc(s);
-
-    }
-
-    public void abc(String id){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Payment ID");
-        builder.setMessage("Phone Number: "+strPhone +"\nAmount: "+strAmount +"\nPayment ID: "+id);
-        builder.show();
-
-    }
-
-    @Override
-    public void onPaymentError(int i, String s) {
-     //   Toast.makeText(this, "Payment failed "+s, Toast.LENGTH_SHORT).show();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Payment Failed");
-        builder.setMessage(s);
-        builder.show();
-    }
 }
