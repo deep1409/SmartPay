@@ -142,8 +142,6 @@ public class MobileRechargeActivity extends AppCompatActivity implements Payment
 
 
 
-
-
         contact_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
